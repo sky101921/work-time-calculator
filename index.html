@@ -21,8 +21,10 @@
             padding: 10px 20px;
         }
         #result {
-            font-size: 1.5em;
+            font-size: 2em;
             margin-top: 20px;
+            color:red;
+            font-weight:bold;
         }
     </style></head><body><h1>工作時間計算器</h1><label for="startTime">請輸入上班時間 (HHMM): </label><br><input type="text" id="startTime" maxlength="4" placeholder="例如：0800"><br><button onclick="calculateOffTime()">計算下班時間</button><p id="result"></p><script>
         function calculateOffTime() {
