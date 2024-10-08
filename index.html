@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>工作時間計算器</title></head><body><h1>工作時間計算器</h1><label for="startTime">請輸入上班時間 (HHMM): </label><input type="text" id="startTime" maxlength="4" placeholder="例如：0800"><button onclick="calculateOffTime()">計算下班時間</button><p id="result"></p><script>
+        function calculateOffTime() {
+            const startTime = document.getElementById('startTime').value;
+            const resultElement = document.getElementById('result');
+
+            if (/^\d{4}$/.test(startTime)) {
+                const hours = parseInt(startTime.slice(0, 2), 10);
+                const minutes = parseInt(startTime.slice(2, 4), 10);
+
+                if (!isNaN(hours) && !isNaN(minutes) && hours < 24 && minutes < 60) {
+                    const startDate = new Date();
+                    startDate.setHours(hours, minutes, 0);
+
+                    const workDuration = 8.5 * 60 * 60 * 1000; // 8.5小時的毫秒數
+                    const offTime = new Date(startDate.getTime() + workDuration);
+
+                    const formattedOffTime = `${offTime.getHours().toString().padStart(2, '0')}:${offTime.getMinutes().toString().padStart(2, '0')}`;
+                    resultElement.textContent = `下班時間是: ${formattedOffTime}`;
+                } else {
+                    resultElement.textContent = '輸入的時間不正確，請確認格式為 HHMM 並且時間有效';
+                }
+            } else {
+                resultElement.textContent = '輸入格式錯誤，請使用 HHMM 格式';
+            }
+        }
+    </script></body></html>
