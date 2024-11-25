@@ -13,10 +13,10 @@
             font-size: 2em;
         }
         label {
-            font-size: 1.5em;
+            font-size: 1.8em;
         }
         input {
-            font-size: 1.5em;
+            font-size: 1.8em;
             padding: 5px;
             margin-top: 10px;
         }
@@ -69,7 +69,8 @@
         function calculateOffTime() {
             const startTime = document.getElementById('startTime').value;
             const resultElement = document.getElementById('resultOff');
-
+			const resultElementStart = document.getElementById('resultStart');
+			resultElementStart.textContent = '';
             if (/^\d{4}$/.test(startTime)) {
                 const hours = parseInt(startTime.slice(0, 2), 10);
                 const minutes = parseInt(startTime.slice(2, 4), 10);
@@ -94,7 +95,8 @@
         function calculateStartTime() {
             const offTime = document.getElementById('offTime').value;
             const resultElement = document.getElementById('resultStart');
-
+			const resultElementOff = document.getElementById('resultOff');
+			resultElementOff.textContent = '';
             if (/^\d{4}$/.test(offTime)) {
                 const hours = parseInt(offTime.slice(0, 2), 10);
                 const minutes = parseInt(offTime.slice(2, 4), 10);
