@@ -113,7 +113,7 @@
 					const wakeupTime = new Date(endDate.getTime() - workDuration1);
                     const formattedStartTime = `${startTime.getHours().toString().padStart(2, '0')}:${startTime.getMinutes().toString().padStart(2, '0')}`;
 					const formattedWakeupTime = `${wakeupTime.getHours().toString().padStart(2, '0')}:${wakeupTime.getMinutes().toString().padStart(2, '0')}`;
-                    resultElement.innerHTML = `上班時間是: ${formattedStartTime} <br><span style="color:green;">起床時間是: ${formattedWakeupTime}</span>`;
+                    resultElement.innerHTML = `上班時間是: ${formattedStartTime} <br><span style="color:green;">出門時間是: ${formattedWakeupTime}</span>`;
                 } else {
                     resultElement.textContent = '輸入的時間不正確，請確認格式為 HHMM 並且時間有效';
                 }
