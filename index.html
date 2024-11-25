@@ -108,10 +108,12 @@
                     endDate.setHours(hours, minutes, 0);
 
                     const workDuration = 8.5 * 60 * 60 * 1000; // 8.5小時的毫秒數
+					const workDuration1 = 9 * 60 * 60 * 1000; // 8.5小時的毫秒數
                     const startTime = new Date(endDate.getTime() - workDuration);
-
+					const wakeupTime = new Date(endDate.getTime() - workDuration1);
                     const formattedStartTime = `${startTime.getHours().toString().padStart(2, '0')}:${startTime.getMinutes().toString().padStart(2, '0')}`;
-                    resultElement.textContent = `上班時間是: ${formattedStartTime}`;
+					const formattedWakeupTime = `${wakeupTime.getHours().toString().padStart(2, '0')}:${wakeupTime.getMinutes().toString().padStart(2, '0')}`;
+                    resultElement.innerHTML = `上班時間是: ${formattedStartTime} <br><span style="color:green;">起床時間是: ${formattedWakeupTime}</span>`;
                 } else {
                     resultElement.textContent = '輸入的時間不正確，請確認格式為 HHMM 並且時間有效';
                 }
