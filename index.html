@@ -1,4 +1,10 @@
-<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>工作時間計算器</title><style>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工作時間計算器</title>
+    <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -19,17 +25,50 @@
             font-size: 1.5em;
             margin-top: 10px;
             padding: 10px 20px;
+            border: none;
+            cursor: pointer;
         }
-        #result {
+        #resultOff {
             font-size: 2em;
             margin-top: 20px;
-            color:red;
-            font-weight:bold;
+            color: red;
+            font-weight: bold;
         }
-    </style></head><body><h1>工作時間計算器</h1><label for="startTime">請輸入上班時間 (HHMM): </label><br><input type="text" id="startTime" maxlength="4" placeholder="例如：0800"><br><button onclick="calculateOffTime()">計算下班時間</button><p id="result"></p><script>
+        #resultStart {
+            font-size: 2em;
+            margin-top: 20px;
+            color: blue;
+            font-weight: bold;
+        }
+        .red-button {
+            background-color: red;
+            color: white;
+        }
+        .blue-button {
+            background-color: blue;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>工作時間計算器</h1>
+    <!-- 計算下班時間區域 -->
+    <label for="startTime">請輸入上班時間 (HHMM): </label><br>
+    <input type="text" id="startTime" maxlength="4" placeholder="例如：0800"><br>
+    <button class="red-button" onclick="calculateOffTime()">計算下班時間</button>
+    <p id="resultOff"></p>
+<hr>
+<br>
+    <!-- 計算上班時間區域 -->
+    <label for="offTime">請輸入下班時間 (HHMM): </label><br>
+    <input type="text" id="offTime" maxlength="4" placeholder="例如：1730"><br>
+    <button class="blue-button" onclick="calculateStartTime()">計算上班時間</button>
+    <p id="resultStart"></p>
+
+    <script>
         function calculateOffTime() {
             const startTime = document.getElementById('startTime').value;
-            const resultElement = document.getElementById('result');
+            const resultElement = document.getElementById('resultOff');
 
             if (/^\d{4}$/.test(startTime)) {
                 const hours = parseInt(startTime.slice(0, 2), 10);
@@ -51,4 +90,31 @@
                 resultElement.textContent = '輸入格式錯誤，請使用 HHMM 格式';
             }
         }
-    </script></body></html>
+
+        function calculateStartTime() {
+            const offTime = document.getElementById('offTime').value;
+            const resultElement = document.getElementById('resultStart');
+
+            if (/^\d{4}$/.test(offTime)) {
+                const hours = parseInt(offTime.slice(0, 2), 10);
+                const minutes = parseInt(offTime.slice(2, 4), 10);
+
+                if (!isNaN(hours) && !isNaN(minutes) && hours < 24 && minutes < 60) {
+                    const endDate = new Date();
+                    endDate.setHours(hours, minutes, 0);
+
+                    const workDuration = 8.5 * 60 * 60 * 1000; // 8.5小時的毫秒數
+                    const startTime = new Date(endDate.getTime() - workDuration);
+
+                    const formattedStartTime = `${startTime.getHours().toString().padStart(2, '0')}:${startTime.getMinutes().toString().padStart(2, '0')}`;
+                    resultElement.textContent = `上班時間是: ${formattedStartTime}`;
+                } else {
+                    resultElement.textContent = '輸入的時間不正確，請確認格式為 HHMM 並且時間有效';
+                }
+            } else {
+                resultElement.textContent = '輸入格式錯誤，請使用 HHMM 格式';
+            }
+        }
+    </script>
+</body>
+</html>
