@@ -1,0 +1,41 @@
+/* 確保 navbar 的樣式 */
+nav {
+    display: flex;
+    justify-content: space-between; /* 左右分布 */
+    align-items: center;           /* 垂直置中 */
+    background-color: #333;        /* 背景顏色 */
+    padding: 10px 20px;            /* 內距 */
+    color: white;                  /* 字體顏色 */
+}
+
+/* 將網站名稱靠左 */
+nav h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: white;
+}
+
+/* 將 ul 的項目水平排列 */
+nav ul {
+    display: flex;                /* 使用 flex 排列 */
+    list-style-type: none;        /* 移除項目前的點 */
+    margin: 0;
+    padding: 0;
+}
+
+/* 每個 li 項目的樣式 */
+nav ul li {
+    margin-left: 20px;            /* 增加間距 */
+}
+
+/* 超連結樣式 */
+nav ul li a {
+    text-decoration: none;        /* 移除下劃線 */
+    color: white;                 /* 字體顏色 */
+    font-size: 1.2em;
+}
+
+/* 當滑鼠移到連結上時的效果 */
+nav ul li a:hover {
+    text-decoration: underline;   /* 滑鼠懸停顯示下劃線 */
+}
