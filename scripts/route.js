@@ -26,6 +26,10 @@ function calculateRouteAndTime(origin, destination) {
         origin: origin,
         destination: destination,
         travelMode: 'DRIVING',
+        drivingOptions: {
+            departureTime: new Date(), // 用於獲取即時交通資料
+        },
+        routingPreference: 'TRAFFIC_AWARE_OPTIMAL',
     };
 
     // 顯示路線
@@ -37,21 +41,33 @@ function calculateRouteAndTime(origin, destination) {
         }
     });
 
-    // 計算開車時間
+    // 計算開車時間並顯示即時交通狀況
     const matrixRequest = {
         origins: [origin],
         destinations: [destination],
         travelMode: 'DRIVING',
+        drivingOptions: {
+            departureTime: new Date(), // 使用當前時間以取得即時交通資料
+        },
+        trafficModel: 'best_guess', // 你可以選擇 'best_guess', 'pessimistic', 'optimistic'
+        routingPreference: 'TRAFFIC_AWARE_OPTIMAL',
     };
 
-    distanceMatrixService.getDistanceMatrix(matrixRequest, (response, status) => {
-        if (status === 'OK') {
-            const duration = response.rows[0].elements[0].duration.text;
-            document.getElementById('travelTime').textContent = `即時開車時間：${duration}`;
-        } else {
-            document.getElementById('travelTime').textContent = '無法取得即時開車時間';
+    distanceMatrixService.getDistanceMatrix(
+        matrixRequest,
+        (response, status) => {
+            if (status === 'OK') {
+                const duration =
+                    response.rows[0].elements[0].duration_in_traffic.text;
+                document.getElementById(
+                    'travelTime'
+                ).textContent = `即時開車時間：${duration}`;
+            } else {
+                document.getElementById('travelTime').textContent =
+                    '無法取得即時開車時間';
+            }
         }
-    });
+    );
 }
 
 // 綁定按鈕事件
