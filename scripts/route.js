@@ -1,5 +1,4 @@
-// 初始化地圖變數
-let map, directionsService, directionsRenderer, distanceMatrixService;
+let map, directionsService, directionsRenderer, distanceMatrixService, trafficLayer;
 
 // GPS 座標
 const home = { lat: 24.879789464860007, lng: 121.2658900463753 };
@@ -12,14 +11,19 @@ function initMap() {
         zoom: 13,
     });
 
+    // 初始化 Directions Service 和 Renderer
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
     distanceMatrixService = new google.maps.DistanceMatrixService();
 
     directionsRenderer.setMap(map);
+
+    // 初始化交通層並將其加到地圖中
+    trafficLayer = new google.maps.TrafficLayer();
+    trafficLayer.setMap(map);
 }
 
-// 計算路線並顯示開車時間
+// 計算路線並顯示即時開車時間
 function calculateRouteAndTime(origin, destination) {
     // 設定路線請求
     const routeRequest = {
@@ -27,9 +31,8 @@ function calculateRouteAndTime(origin, destination) {
         destination: destination,
         travelMode: 'DRIVING',
         drivingOptions: {
-            departureTime: new Date(), // 用於獲取即時交通資料
-        },
-        routingPreference: 'TRAFFIC_AWARE_OPTIMAL',
+            departureTime: new Date(),  // 使用當前時間以取得即時交通資料
+        }
     };
 
     // 顯示路線
@@ -47,27 +50,19 @@ function calculateRouteAndTime(origin, destination) {
         destinations: [destination],
         travelMode: 'DRIVING',
         drivingOptions: {
-            departureTime: new Date(), // 使用當前時間以取得即時交通資料
+            departureTime: new Date(),  // 使用當前時間以取得即時交通資料
         },
-        trafficModel: 'best_guess', // 你可以選擇 'best_guess', 'pessimistic', 'optimistic'
-        routingPreference: 'TRAFFIC_AWARE_OPTIMAL',
+        trafficModel: 'best_guess',  // 使用 'best_guess' 以獲得最優交通預測
     };
 
-    distanceMatrixService.getDistanceMatrix(
-        matrixRequest,
-        (response, status) => {
-            if (status === 'OK') {
-                const duration =
-                    response.rows[0].elements[0].duration_in_traffic.text;
-                document.getElementById(
-                    'travelTime'
-                ).textContent = `即時開車時間：${duration}`;
-            } else {
-                document.getElementById('travelTime').textContent =
-                    '無法取得即時開車時間';
-            }
+    distanceMatrixService.getDistanceMatrix(matrixRequest, (response, status) => {
+        if (status === 'OK') {
+            const duration = response.rows[0].elements[0].duration_in_traffic.text;
+            document.getElementById('travelTime').textContent = `即時開車時間：${duration}`;
+        } else {
+            document.getElementById('travelTime').textContent = '無法取得即時開車時間';
         }
-    );
+    });
 }
 
 // 綁定按鈕事件
