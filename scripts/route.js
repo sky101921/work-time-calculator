@@ -40,9 +40,11 @@ function calculateRouteAndTime(origin, destination) {
 
             // 取得並顯示即時開車時間
             const duration = result.routes[0].legs[0].duration_in_traffic.text;
+
+            // 更新顯示的行車時間
             document.getElementById('travelTime').textContent = `即時開車時間：${duration}`;
         } else {
-            alert('無法計算路線: ' + status);
+            document.getElementById('travelTime').textContent = '無法計算路線，請稍後再試';
         }
     });
 }
@@ -57,4 +59,8 @@ document.getElementById('toHome').addEventListener('click', () => {
 });
 
 // 初始化地圖
-window.onload = initMap;
+window.onload = function () {
+    initMap();
+    // 保證頁面初始化後再顯示提示
+    document.getElementById('travelTime').textContent = '開車時間將顯示於此';
+};
