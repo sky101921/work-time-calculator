@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>路線資訊</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <nav>
+        <h1>Jade Go Work</h1>
+        <ul>
+            <li><a href="route.html" class="active">路線</a></li>
+            <li><a href="time.html">上下班時間</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <h2>路線資訊</h2>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+        <p id="homeToOfficeTime" style="font-size: 1.5em; color: red;"></p>
+        <p id="officeToHomeTime" style="font-size: 1.5em; color: blue;"></p>
+    </div>
+
+    <script src="scripts/route.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqxCTZdxTax17MY9fHICCLfqJdjoODS6s&callback=initMap" async defer></script>
+</body>
+</html>

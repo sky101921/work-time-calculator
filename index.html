@@ -3,199 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jade Go Work</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        nav {
-            background-color: #333;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 20px;
-        }
-        nav h1 {
-            margin: 0;
-            font-size: 1.5em;
-        }
-        nav ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-        nav ul li {
-            margin: 0 10px;
-        }
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.2em;
-            cursor: pointer;
-        }
-        nav ul li a:hover {
-            text-decoration: underline;
-        }
-        .content {
-            padding: 20px;
-        }
-        .hidden {
-            display: none;
-        }
-        iframe {
-            width: 100%;
-            height: 500px;
-            border: none;
-        }
-    </style>
+    <title>Jade’s 9-to-5</title>
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-    <!-- Navbar -->
     <nav>
-        <h1>Jade Go Work</h1>
+        <h1>Jade’s 9-to-5</h1>
         <ul>
-            <li><a id="routeLink">路線</a></li>
-            <li><a id="timeLink">上下班時間</a></li>
+            <li><a href="route.html">路線</a></li>
+            <li><a href="time.html">上下班時間</a></li>
         </ul>
     </nav>
-
-    <!-- Content Sections -->
-    <div id="routeContent" class="content">
-        <h2>住家往來公司的路線</h2>
-        <div id="map" style="width: 100%; height: 400px;"></div>
-        <p id="time" style="font-size: 1.5em; color: red;"></p>
+    <div class="content">
+        <h2>歡迎使用 Jade Go Work</h2>
+        <p>選擇上方的功能進行操作。</p>
     </div>
-
-    <div id="timeContent" class="content hidden">
-        <h2>工作時間計算器</h2>
-        <!-- 計算下班時間區域 -->
-        <label for="startTime">請輸入上班時間 (HHMM): </label><br>
-        <input type="text" id="startTime" maxlength="4" placeholder="例如：0800"><br>
-        <button class="red-button" onclick="calculateOffTime()">計算下班時間</button>
-        <p id="resultOff"></p>
-        <hr>
-        <br>
-        <!-- 計算上班時間區域 -->
-        <label for="offTime">請輸入下班時間 (HHMM): </label><br>
-        <input type="text" id="offTime" maxlength="4" placeholder="例如：1730"><br>
-        <button class="blue-button" onclick="calculateStartTime()">計算上班時間</button>
-        <p id="resultStart"></p>
-    </div>
-
-    <script>
-        // Navbar Tab Switching
-        const routeLink = document.getElementById("routeLink");
-        const timeLink = document.getElementById("timeLink");
-        const routeContent = document.getElementById("routeContent");
-        const timeContent = document.getElementById("timeContent");
-
-        routeLink.addEventListener("click", () => {
-            routeContent.classList.remove("hidden");
-            timeContent.classList.add("hidden");
-        });
-
-        timeLink.addEventListener("click", () => {
-            timeContent.classList.remove("hidden");
-            routeContent.classList.add("hidden");
-        });
-
-        // Google Maps API Integration
-        let map, directionsService, directionsRenderer;
-
-        function initMap() {
-            directionsService = new google.maps.DirectionsService();
-            directionsRenderer = new google.maps.DirectionsRenderer();
-
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: 24.917884, lng: 121.21663 },
-                zoom: 12,
-            });
-            directionsRenderer.setMap(map);
-
-            calculateRoute();
-        }
-
-        function calculateRoute() {
-            const origin = { lat: 24.879789464860007, lng: 121.2658900463753 };
-            const destination = { lat: 24.955979616671335, lng: 121.16736966965546 };
-
-            directionsService.route(
-                {
-                    origin: origin,
-                    destination: destination,
-                    travelMode: google.maps.TravelMode.DRIVING,
-                    drivingOptions: {
-                        departureTime: new Date(),
-                    },
-                },
-                (response, status) => {
-                    if (status === "OK") {
-                        directionsRenderer.setDirections(response);
-                        const route = response.routes[0].legs[0];
-                        document.getElementById("time").innerText = `即時開車時間：${route.duration_in_traffic?.text || route.duration.text}`;
-                    } else {
-                        document.getElementById("time").innerText = "無法取得路徑資訊";
-                    }
-                }
-            );
-        }
-
-        // Time Calculator
-        function calculateOffTime() {
-            const startTime = document.getElementById("startTime").value;
-            const resultElement = document.getElementById("resultOff");
-            const resultElementStart = document.getElementById("resultStart");
-            resultElementStart.textContent = '';
-
-            if (/^\d{4}$/.test(startTime)) {
-                const hours = parseInt(startTime.slice(0, 2), 10);
-                const minutes = parseInt(startTime.slice(2, 4), 10);
-                if (!isNaN(hours) && !isNaN(minutes) && hours < 24 && minutes < 60) {
-                    const startDate = new Date();
-                    startDate.setHours(hours, minutes, 0);
-                    const workDuration = 8.5 * 60 * 60 * 1000;
-                    const offTime = new Date(startDate.getTime() + workDuration);
-                    resultElement.textContent = `下班時間是: ${offTime.getHours().toString().padStart(2, '0')}:${offTime.getMinutes().toString().padStart(2, '0')}`;
-                } else {
-                    resultElement.textContent = '輸入的時間不正確，請確認格式為 HHMM 並且時間有效';
-                }
-            } else {
-                resultElement.textContent = '輸入格式錯誤，請使用 HHMM 格式';
-            }
-        }
-
-        function calculateStartTime() {
-            const offTime = document.getElementById("offTime").value;
-            const resultElement = document.getElementById("resultStart");
-            const resultElementOff = document.getElementById("resultOff");
-            resultElementOff.textContent = '';
-
-            if (/^\d{4}$/.test(offTime)) {
-                const hours = parseInt(offTime.slice(0, 2), 10);
-                const minutes = parseInt(offTime.slice(2, 4), 10);
-
-                if (!isNaN(hours) && !isNaN(minutes) && hours < 24 && minutes < 60) {
-                    const endDate = new Date();
-                    endDate.setHours(hours, minutes, 0);
-
-                    const workDuration = 8.5 * 60 * 60 * 1000;
-                    const workDuration1 = 9 * 60 * 60 * 1000;
-                    const startTime = new Date(endDate.getTime() - workDuration);
-                    const wakeupTime = new Date(endDate.getTime() - workDuration1);
-                    resultElement.innerHTML = `上班時間是: ${startTime.getHours().toString().padStart(2, '0')}:${startTime.getMinutes().toString().padStart(2, '0')}<br><span style="color:green;">出門時間是: ${wakeupTime.getHours().toString().padStart(2, '0')}:${wakeupTime.getMinutes().toString().padStart(2, '0')}</span>`;
-                } else {
-                    resultElement.textContent = '輸入的時間不正確，請確認格式為 HHMM 並且時間有效';
-                }
-            } else {
-                resultElement.textContent = '輸入格式錯誤，請使用 HHMM 格式';
-            }
-        }
-    </script>
-
-    <!-- Load Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqxCTZdxTax17MY9fHICCLfqJdjoODS6s&callback=initMap" async defer></script>
 </body>
 </html>
