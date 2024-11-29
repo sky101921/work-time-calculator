@@ -1,4 +1,4 @@
-let map, directionsService, directionsRenderer, distanceMatrixService, trafficLayer;
+let map, directionsService, directionsRenderer, trafficLayer;
 
 // GPS 座標
 const home = { lat: 24.879789464860007, lng: 121.2658900463753 };
@@ -14,13 +14,11 @@ function initMap() {
     // 初始化 Directions Service 和 Renderer
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
-    distanceMatrixService = new google.maps.DistanceMatrixService();
-
     directionsRenderer.setMap(map);
 
     // 初始化交通層並將其加到地圖中
     trafficLayer = new google.maps.TrafficLayer();
-    trafficLayer.setMap(map);
+    trafficLayer.setMap(map);  // 啟用交通層
 }
 
 // 計算路線並顯示即時開車時間
@@ -39,28 +37,12 @@ function calculateRouteAndTime(origin, destination) {
     directionsService.route(routeRequest, (result, status) => {
         if (status === 'OK') {
             directionsRenderer.setDirections(result);
-        } else {
-            alert('無法計算路線: ' + status);
-        }
-    });
 
-    // 計算開車時間並顯示即時交通狀況
-    const matrixRequest = {
-        origins: [origin],
-        destinations: [destination],
-        travelMode: 'DRIVING',
-        drivingOptions: {
-            departureTime: new Date(),  // 使用當前時間以取得即時交通資料
-        },
-        trafficModel: 'best_guess',  // 使用 'best_guess' 以獲得最優交通預測
-    };
-
-    distanceMatrixService.getDistanceMatrix(matrixRequest, (response, status) => {
-        if (status === 'OK') {
-            const duration = response.rows[0].elements[0].duration_in_traffic.text;
+            // 取得並顯示即時開車時間
+            const duration = result.routes[0].legs[0].duration_in_traffic.text;
             document.getElementById('travelTime').textContent = `即時開車時間：${duration}`;
         } else {
-            document.getElementById('travelTime').textContent = '無法取得即時開車時間';
+            alert('無法計算路線: ' + status);
         }
     });
 }
