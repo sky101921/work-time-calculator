@@ -1,49 +1,66 @@
 // 初始化地圖變數
-let map, directionsService, directionsRenderer;
+let map, directionsService, directionsRenderer, distanceMatrixService;
 
-// 住家與公司的 GPS 座標
+// GPS 座標
 const home = { lat: 24.879789464860007, lng: 121.2658900463753 };
 const office = { lat: 24.955979616671335, lng: 121.16736966965546 };
 
 // 初始化地圖
 function initMap() {
-    // 創建地圖實例
     map = new google.maps.Map(document.getElementById('map'), {
-        center: home, // 預設居中在住家
+        center: home,
         zoom: 13,
     });
 
-    // 初始化方向服務與渲染器
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
+    distanceMatrixService = new google.maps.DistanceMatrixService();
+
     directionsRenderer.setMap(map);
 }
 
-// 設定路線規劃
-function calculateRoute(origin, destination) {
-    const request = {
+// 計算路線並顯示開車時間
+function calculateRouteAndTime(origin, destination) {
+    // 設定路線請求
+    const routeRequest = {
         origin: origin,
         destination: destination,
-        travelMode: 'DRIVING', // 行駛模式：開車
+        travelMode: 'DRIVING',
     };
 
-    // 透過 DirectionsService 計算路線
-    directionsService.route(request, (result, status) => {
+    // 顯示路線
+    directionsService.route(routeRequest, (result, status) => {
         if (status === 'OK') {
-            directionsRenderer.setDirections(result); // 顯示路線
+            directionsRenderer.setDirections(result);
         } else {
             alert('無法計算路線: ' + status);
         }
     });
+
+    // 計算開車時間
+    const matrixRequest = {
+        origins: [origin],
+        destinations: [destination],
+        travelMode: 'DRIVING',
+    };
+
+    distanceMatrixService.getDistanceMatrix(matrixRequest, (response, status) => {
+        if (status === 'OK') {
+            const duration = response.rows[0].elements[0].duration.text;
+            document.getElementById('travelTime').textContent = `即時開車時間：${duration}`;
+        } else {
+            document.getElementById('travelTime').textContent = '無法取得即時開車時間';
+        }
+    });
 }
 
-// 事件綁定：按鈕點擊顯示對應路線
+// 綁定按鈕事件
 document.getElementById('toCompany').addEventListener('click', () => {
-    calculateRoute(home, office); // 從住家到公司
+    calculateRouteAndTime(home, office);
 });
 
 document.getElementById('toHome').addEventListener('click', () => {
-    calculateRoute(office, home); // 從公司到住家
+    calculateRouteAndTime(office, home);
 });
 
 // 初始化地圖

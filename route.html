@@ -1,34 +1,48 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>路線規劃</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqxCTZdxTax17MY9fHICCLfqJdjoODS6s"></script>
-    <style>
-        #map {
-            height: 500px;
-            width: 100%;
-        }
-        #buttons {
-            text-align: center;
-            margin: 20px 0;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 1.2em;
-            margin: 0 10px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <h1>路線規劃</h1>
-    <div id="buttons">
-        <button id="toCompany">去公司</button>
-        <button id="toHome">回家</button>
-    </div>
-    <div id="map"></div>
-    <script src="scripts/route.js"></script>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>路線規劃</title>
+        <link rel="stylesheet" href="styles/main.css" />
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqxCTZdxTax17MY9fHICCLfqJdjoODS6s"></script>
+        <style>
+            #map {
+                height: 500px;
+                width: 100%;
+            }
+            #buttons {
+                text-align: center;
+                margin: 20px 0;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 1.2em;
+                margin: 0 10px;
+                cursor: pointer;
+            }
+            #travelTime {
+                text-align: center;
+                font-size: 1.5em;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <h1>Jade Go Work</h1>
+            <ul>
+                <li><a href="route.html" class="active">路線</a></li>
+                <li><a href="time.html">上下班時間</a></li>
+            </ul>
+        </nav>
+        <h1>路線規劃</h1>
+        <div id="buttons">
+            <button id="toCompany">去公司</button>
+            <button id="toHome">回家</button>
+        </div>
+        <div id="travelTime">開車時間將顯示於此</div>
+        <div id="map"></div>
+        <script src="scripts/route.js"></script>
+    </body>
 </html>
