@@ -41,6 +41,7 @@ function calculateRouteAndTime() {
 
             // 取得並顯示即時開車時間
             const duration = result.routes[0].legs[0].duration_in_traffic.text;
+            console.log(duration);
             return duration;
         } else {
             return '';
