@@ -23,7 +23,7 @@ nav {
 /* 將網站名稱靠左 */
 nav h1 {
     margin: 0;
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: white;
 }
 
@@ -56,4 +56,17 @@ nav ul li a:hover {
 nav ul li a.active {
     color: yellow; /* 字體變成黃色 */
     font-weight: bold; /* 強調選中的項目 */
+}
+
+/* Media Query for mobile devices */
+@media (max-width: 768px) {
+    nav h1 {
+        font-size: 1em; /* 縮小標題字體 */
+    }
+    nav ul li a {
+        font-size: 0.9em; /* 縮小選項字體 */
+    }
+    nav ul li {
+        margin-left: 10px; /* 減少間距 */
+    }
 }
