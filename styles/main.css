@@ -61,12 +61,12 @@ nav ul li a.active {
 /* Media Query for mobile devices */
 @media (max-width: 768px) {
     nav h1 {
-        font-size: 1em; /* 縮小標題字體 */
+        font-size: 1.2em; /* 縮小標題字體 */
     }
     nav ul li a {
-        font-size: 0.9em; /* 縮小選項字體 */
+        font-size: 1em; /* 縮小選項字體 */
     }
     nav ul li {
-        margin-left: 10px; /* 減少間距 */
+        margin-left: 9px; /* 減少間距 */
     }
 }
