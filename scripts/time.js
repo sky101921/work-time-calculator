@@ -42,11 +42,29 @@ function calculateRouteAndTime() {
             // 取得並顯示即時開車時間
             const duration = result.routes[0].legs[0].duration_in_traffic.value; //秒
             console.log(duration);
-            return duration;
+            resolve(durationInSeconds); // 回傳秒數
         } else {
-            return '';
+            reject('無法取得路線資料'); // 拒絕Promise
         }
     });
+}
+
+async function getGoTime() {
+    let goTime = 30 * 60; // 預設 30 分鐘（以秒計）
+    let errMsg = '(API異常)';
+
+    try {
+        const goTimeSec = await calculateRouteAndTime(); // 等待結果
+        if (goTimeSec) {
+            goTime = goTimeSec;
+            errMsg = '';
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+    console.log('goTime:', goTime, errMsg);
+    return { goTime, errMsg }; // 回傳結果與錯誤訊息
 }
 
 function calculateOffTime() {
@@ -91,35 +109,28 @@ function calculateStartTime() {
         if (!isNaN(hours) && !isNaN(minutes) && hours < 24 && minutes < 60) {
             const endDate = new Date();
             endDate.setHours(hours, minutes, 0);
-            var goTimeSec = calculateRouteAndTime();
-            console.log(goTimeSec);
-            let goTime = 30 * 60; //秒
-            var errMsg = '';
-            if (goTimeSec) {
-                goTime = goTimeSec;
-            } else {
-                errMsg = '(API異常)';
-            }
 
-            const workDuration = 8.5 * 60 * 60 * 1000; // 8.5小時的毫秒數
-            const workDuration1 = workDuration + goTime * 1000; //毫秒
-            const startTime = new Date(endDate.getTime() - workDuration);
-            const wakeupTime = new Date(endDate.getTime() - workDuration1);
-            const formattedStartTime =
-                startTime.getHours().toString().padStart(2, '0') +
-                ':' +
-                startTime.getMinutes().toString().padStart(2, '0');
-            const formattedWakeupTime =
-                wakeupTime.getHours().toString().padStart(2, '0') +
-                ':' +
-                wakeupTime.getMinutes().toString().padStart(2, '0');
-            resultElement.innerHTML =
-                '上班時間是:' +
-                formattedStartTime +
-                '<br><span style="color:green;">出門時間是:' +
-                formattedWakeupTime +
-                errMsg +
-                '</span>';
+            getGoTime().then(({ goTime, errMsg }) => {
+                const workDuration = 8.5 * 60 * 60 * 1000; // 8.5小時的毫秒數
+                const workDuration1 = workDuration + goTime * 1000; //毫秒
+                const startTime = new Date(endDate.getTime() - workDuration);
+                const wakeupTime = new Date(endDate.getTime() - workDuration1);
+                const formattedStartTime =
+                    startTime.getHours().toString().padStart(2, '0') +
+                    ':' +
+                    startTime.getMinutes().toString().padStart(2, '0');
+                const formattedWakeupTime =
+                    wakeupTime.getHours().toString().padStart(2, '0') +
+                    ':' +
+                    wakeupTime.getMinutes().toString().padStart(2, '0');
+                resultElement.innerHTML =
+                    '上班時間是:' +
+                    formattedStartTime +
+                    '<br><span style="color:green;">出門時間是:' +
+                    formattedWakeupTime +
+                    errMsg +
+                    '</span>';
+            });
         } else {
             resultElement.textContent =
                 '輸入的時間不正確，請確認格式為 HHMM 並且時間有效';
