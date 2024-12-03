@@ -23,29 +23,27 @@ function initMap() {
 
 // 計算路線並顯示即時開車時間
 function calculateRouteAndTime() {
-    var origin = home;
-    var destination = office;
-    // 設定路線請求
-    const routeRequest = {
-        origin: origin,
-        destination: destination,
-        travelMode: 'DRIVING',
-        drivingOptions: {
-            departureTime: new Date(), // 使用當前時間以取得即時交通資料
-        },
-    };
+    return new Promise((resolve, reject) => {
+        var origin = home;
+        var destination = office;
+        const routeRequest = {
+            origin: origin,
+            destination: destination,
+            travelMode: 'DRIVING',
+            drivingOptions: {
+                departureTime: new Date(),
+            },
+        };
 
-    directionsService.route(routeRequest, (result, status) => {
-        if (status === 'OK') {
-            directionsRenderer.setDirections(result);
-
-            // 取得並顯示即時開車時間
-            const duration = result.routes[0].legs[0].duration_in_traffic.value; //秒
-            console.log(duration);
-            resolve(durationInSeconds); // 回傳秒數
-        } else {
-            reject('無法取得路線資料'); // 拒絕Promise
-        }
+        directionsService.route(routeRequest, (result, status) => {
+            if (status === 'OK') {
+                const durationInSeconds =
+                    result.routes[0].legs[0].duration_in_traffic.value;
+                resolve(durationInSeconds); // 回傳秒數
+            } else {
+                reject('無法取得路線資料'); // 拒絕Promise
+            }
+        });
     });
 }
 
