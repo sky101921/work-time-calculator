@@ -6,9 +6,19 @@ const office = { lat: 24.955979616671335, lng: 121.16736966965546 };
 
 // 初始化地圖
 function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: home,
+        zoom: 13,
+    });
+
     // 初始化 Directions Service 和 Renderer
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
+
+    // 初始化交通層並將其加到地圖中
+    trafficLayer = new google.maps.TrafficLayer();
+    trafficLayer.setMap(map); // 啟用交通層
 }
 
 // 計算路線並顯示即時開車時間
