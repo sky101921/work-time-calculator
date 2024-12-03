@@ -23,7 +23,7 @@ nav {
 /* 將網站名稱靠左 */
 nav h1 {
     margin: 0;
-    font-size: 1.5em;
+    font-size: 1.2em;
     color: white;
 }
 
@@ -37,14 +37,14 @@ nav ul {
 
 /* 每個 li 項目的樣式 */
 nav ul li {
-    margin-left: 20px; /* 增加間距 */
+    margin-left: 15px; /* 增加間距 */
 }
 
 /* 超連結樣式 */
 nav ul li a {
     text-decoration: none; /* 移除下劃線 */
     color: white; /* 字體顏色 */
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 
 /* 當滑鼠移到連結上時的效果 */
