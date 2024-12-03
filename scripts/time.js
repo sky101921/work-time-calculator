@@ -40,7 +40,7 @@ function calculateRouteAndTime() {
             directionsRenderer.setDirections(result);
 
             // 取得並顯示即時開車時間
-            const duration = result.routes[0].legs[0].duration_in_traffic.text;
+            const duration = result.routes[0].legs[0].duration_in_traffic.value; //秒
             console.log(duration);
             return duration;
         } else {
@@ -91,18 +91,18 @@ function calculateStartTime() {
         if (!isNaN(hours) && !isNaN(minutes) && hours < 24 && minutes < 60) {
             const endDate = new Date();
             endDate.setHours(hours, minutes, 0);
-            var goTimeStr = calculateRouteAndTime();
-            console.log(goTimeStr);
-            let goTime = 30;
+            var goTimeSec = calculateRouteAndTime();
+            console.log(goTimeSec);
+            let goTime = 30 * 60; //秒
             var errMsg = '';
-            if (goTimeStr) {
-                goTime = parseInt(goTime);
+            if (goTimeSec) {
+                goTime = goTimeSec;
             } else {
                 errMsg = '(API異常)';
             }
 
             const workDuration = 8.5 * 60 * 60 * 1000; // 8.5小時的毫秒數
-            const workDuration1 = workDuration + goTime * 60 * 1000;
+            const workDuration1 = workDuration + goTime * 1000; //毫秒
             const startTime = new Date(endDate.getTime() - workDuration);
             const wakeupTime = new Date(endDate.getTime() - workDuration1);
             const formattedStartTime =
