@@ -18,7 +18,7 @@ function initMap() {
 
     // 初始化交通層並將其加到地圖中
     trafficLayer = new google.maps.TrafficLayer();
-    trafficLayer.setMap(map);  // 啟用交通層
+    trafficLayer.setMap(map); // 啟用交通層
 }
 
 // 計算路線並顯示即時開車時間
@@ -29,8 +29,8 @@ function calculateRouteAndTime(origin, destination) {
         destination: destination,
         travelMode: 'DRIVING',
         drivingOptions: {
-            departureTime: new Date(),  // 使用當前時間以取得即時交通資料
-        }
+            departureTime: new Date(), // 使用當前時間以取得即時交通資料
+        },
     };
 
     // 顯示路線
@@ -42,19 +42,26 @@ function calculateRouteAndTime(origin, destination) {
             const duration = result.routes[0].legs[0].duration_in_traffic.text;
 
             // 更新顯示的行車時間
-            document.getElementById('travelTime').textContent = `即時開車時間：${duration}`;
+            document.getElementById(
+                'travelTime'
+            ).textContent = `即時開車時間：${duration}`;
         } else {
-            document.getElementById('travelTime').textContent = '無法計算路線，請稍後再試';
+            document.getElementById('travelTime').textContent =
+                '無法計算路線，請稍後再試';
         }
     });
 }
 
 // 綁定按鈕事件
 document.getElementById('toCompany').addEventListener('click', () => {
+    document.getElementById('toCompany').classList.add('active');
+    document.getElementById('toHome').classList.remove('active');
     calculateRouteAndTime(home, office);
 });
 
 document.getElementById('toHome').addEventListener('click', () => {
+    document.getElementById('toHome').classList.add('active');
+    document.getElementById('toCompany').classList.remove('active');
     calculateRouteAndTime(office, home);
 });
 
@@ -63,4 +70,6 @@ window.onload = function () {
     initMap();
     // 保證頁面初始化後再顯示提示
     document.getElementById('travelTime').textContent = '開車時間將顯示於此';
+    // 程式化觸發 "toCompany" 按鈕的點擊事件
+    document.getElementById('toCompany').click();
 };

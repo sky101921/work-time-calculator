@@ -1,11 +1,23 @@
 /* 確保 navbar 的樣式 */
+body {
+    font-family: -apple-system, /* Apple 系統字型 */ BlinkMacSystemFont,
+        /* macOS */ 'PingFang TC',
+        /* macOS 和 iOS 中的中文字型 */ 'Microsoft JhengHei',
+        /* 微軟正黑體，Windows */ 'Heiti TC', /* 黑體 */ Arial,
+        /* 英文字型 */ sans-serif; /* 通用字型 */
+    font-size: 16px; /* 預設字型大小 */
+    line-height: 1.6; /* 行距，提升閱讀體驗 */
+    color: #333; /* 文字顏色，深灰色對眼睛更友好 */
+    background-color: #f9f9f9; /* 背景色，淺色為主 */
+}
+
 nav {
     display: flex;
     justify-content: space-between; /* 左右分布 */
-    align-items: center;           /* 垂直置中 */
-    background-color: #333;        /* 背景顏色 */
-    padding: 10px 20px;            /* 內距 */
-    color: white;                  /* 字體顏色 */
+    align-items: center; /* 垂直置中 */
+    background-color: #333; /* 背景顏色 */
+    padding: 10px 20px; /* 內距 */
+    color: white; /* 字體顏色 */
 }
 
 /* 將網站名稱靠左 */
@@ -17,25 +29,31 @@ nav h1 {
 
 /* 將 ul 的項目水平排列 */
 nav ul {
-    display: flex;                /* 使用 flex 排列 */
-    list-style-type: none;        /* 移除項目前的點 */
+    display: flex; /* 使用 flex 排列 */
+    list-style-type: none; /* 移除項目前的點 */
     margin: 0;
     padding: 0;
 }
 
 /* 每個 li 項目的樣式 */
 nav ul li {
-    margin-left: 20px;            /* 增加間距 */
+    margin-left: 20px; /* 增加間距 */
 }
 
 /* 超連結樣式 */
 nav ul li a {
-    text-decoration: none;        /* 移除下劃線 */
-    color: white;                 /* 字體顏色 */
+    text-decoration: none; /* 移除下劃線 */
+    color: white; /* 字體顏色 */
     font-size: 1.2em;
 }
 
 /* 當滑鼠移到連結上時的效果 */
 nav ul li a:hover {
-    text-decoration: underline;   /* 滑鼠懸停顯示下劃線 */
+    text-decoration: underline; /* 滑鼠懸停顯示下劃線 */
+}
+
+/* 當選項 active 時變成黃色 */
+nav ul li a.active {
+    color: yellow; /* 字體變成黃色 */
+    font-weight: bold; /* 強調選中的項目 */
 }

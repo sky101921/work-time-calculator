@@ -1,32 +1,91 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>上下班時間計算</title>
-    <link rel="stylesheet" href="styles/main.css">
-</head>
-<body>
-    <nav>
-        <h1>Jade Go Work</h1>
-        <ul>
-            <li><a href="route.html">路線</a></li>
-            <li><a href="time.html" class="active">上下班時間</a></li>
-        </ul>
-    </nav>
-    <div class="content">
-        <h2>上下班時間計算</h2>
-        <label for="startTime">請輸入上班時間 (HHMM): </label><br>
-        <input type="text" id="startTime" maxlength="4" placeholder="例如：0800"><br>
-        <button class="red-button" onclick="calculateOffTime()">計算下班時間</button>
-        <p id="resultOff"></p>
-        <hr>
-        <br>
-        <label for="offTime">請輸入下班時間 (HHMM): </label><br>
-        <input type="text" id="offTime" maxlength="4" placeholder="例如：1730"><br>
-        <button class="blue-button" onclick="calculateStartTime()">計算上班時間</button>
-        <p id="resultStart"></p>
-    </div>
-    <script src="scripts/time.js"></script>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>上下班時間計算</title>
+        <link rel="stylesheet" href="styles/main.css" />
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqxCTZdxTax17MY9fHICCLfqJdjoODS6s"></script>
+    </head>
+
+    <style>
+        h1 {
+            font-size: 2em;
+        }
+        label {
+            font-size: 1.8em;
+        }
+        input {
+            font-size: 1.8em;
+            padding: 5px;
+            margin-top: 10px;
+            width: 80%; /* 調整寬度讓其適應手機畫面 */
+            box-sizing: border-box; /* 確保 padding 不影響整體寬度 */
+        }
+        button {
+            display: block;
+            font-size: 1.5em;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        #resultOff {
+            font-size: 2em;
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+        }
+        #resultStart {
+            font-size: 2em;
+            margin-top: 20px;
+            color: blue;
+            font-weight: bold;
+        }
+        .red-button {
+            background-color: red;
+            color: white;
+        }
+        .blue-button {
+            background-color: blue;
+            color: white;
+        }
+    </style>
+    <body>
+        <nav>
+            <h1>Jade Go Work</h1>
+            <ul>
+                <li><a href="route.html">路線</a></li>
+                <li><a href="time.html" class="active">上下班時間</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <br />
+            <label for="startTime">請輸入上班時間 (HHMM): </label><br />
+            <input
+                type="text"
+                id="startTime"
+                maxlength="4"
+                placeholder="例如：0800"
+            /><br />
+            <button class="red-button" onclick="calculateOffTime()">
+                計算下班時間
+            </button>
+            <p id="resultOff"></p>
+            <hr />
+            <br />
+            <label for="offTime">請輸入下班時間 (HHMM): </label><br />
+            <input
+                type="text"
+                id="offTime"
+                maxlength="4"
+                placeholder="例如：1730"
+            /><br />
+            <button class="blue-button" onclick="calculateStartTime()">
+                計算上班時間
+            </button>
+            <p id="resultStart"></p>
+        </div>
+        <script src="scripts/time.js"></script>
+    </body>
 </html>
