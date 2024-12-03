@@ -6,19 +6,9 @@ const office = { lat: 24.955979616671335, lng: 121.16736966965546 };
 
 // 初始化地圖
 function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: home,
-        zoom: 13,
-    });
-
     // 初始化 Directions Service 和 Renderer
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
-    directionsRenderer.setMap(map);
-
-    // 初始化交通層並將其加到地圖中
-    trafficLayer = new google.maps.TrafficLayer();
-    trafficLayer.setMap(map); // 啟用交通層
 }
 
 // 計算路線並顯示即時開車時間
@@ -49,20 +39,21 @@ function calculateRouteAndTime() {
 
 async function getGoTime() {
     let goTime = 30 * 60; // 預設 30 分鐘（以秒計）
-    let errMsg = '(API異常)';
+    let message = '(API異常)';
 
     try {
         const goTimeSec = await calculateRouteAndTime(); // 等待結果
         if (goTimeSec) {
             goTime = goTimeSec;
-            errMsg = '';
+            goTimeShow = Math.round((goTimeSec / 60) * 10) / 10; // 四捨五入到小數點1位
+            message = '(' + goTimeShow + '分鐘)';
         }
     } catch (error) {
         console.error(error);
     }
 
-    console.log('goTime:', goTime, errMsg);
-    return { goTime, errMsg }; // 回傳結果與錯誤訊息
+    console.log('goTime:', goTime, message);
+    return { goTime, message }; // 回傳結果與錯誤訊息
 }
 
 function calculateOffTime() {
@@ -108,7 +99,7 @@ function calculateStartTime() {
             const endDate = new Date();
             endDate.setHours(hours, minutes, 0);
 
-            getGoTime().then(({ goTime, errMsg }) => {
+            getGoTime().then(({ goTime, message }) => {
                 const workDuration = 8.5 * 60 * 60 * 1000; // 8.5小時的毫秒數
                 const workDuration1 = workDuration + goTime * 1000; //毫秒
                 const startTime = new Date(endDate.getTime() - workDuration);
@@ -126,7 +117,7 @@ function calculateStartTime() {
                     formattedStartTime +
                     '<br><span style="color:green;">出門時間是:' +
                     formattedWakeupTime +
-                    errMsg +
+                    message +
                     '</span>';
             });
         } else {
