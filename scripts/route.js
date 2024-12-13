@@ -98,6 +98,14 @@ window.onload = function () {
     initMap();
     // 保證頁面初始化後再顯示提示
     document.getElementById('travelTime').textContent = '開車時間將顯示於此';
-    // 程式化觸發 "toCompany" 按鈕的點擊事件
-    document.getElementById('toCompany').click();
+
+    // 取得當前小時
+    const currentHour = new Date().getHours();
+
+    // 根據時間觸發對應按鈕的點擊事件
+    if (currentHour <= 12) {
+        document.getElementById('toCompany').click(); // 上午 12 點前觸發 "toCompany"
+    } else {
+        document.getElementById('toHome').click(); // 中午 12 點後觸發 "toHome"
+    }
 };
