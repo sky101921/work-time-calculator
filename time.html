@@ -12,17 +12,17 @@
         h1 {
             font-size: 2em;
         }
-        label {
+        .content label {
             font-size: 1.8em;
         }
-        input {
+        .content input {
             font-size: 1.8em;
             padding: 5px;
             margin-top: 10px;
             width: 80%; /* 調整寬度讓其適應手機畫面 */
             box-sizing: border-box; /* 確保 padding 不影響整體寬度 */
         }
-        button {
+        .content button {
             display: block;
             font-size: 1.5em;
             margin-top: 10px;
@@ -58,6 +58,13 @@
                 <li><a href="route.html">路線</a></li>
                 <li><a href="time.html" class="active">上下班時間</a></li>
             </ul>
+            <div class="tabber">
+                <label for="t1">Jade</label>
+                <input id="t1" name="food" type="radio" checked />
+                <label for="t2">Archie</label>
+                <input id="t2" name="food" type="radio" />
+                <div class="blob"></div>
+            </div>
         </nav>
         <div class="content">
             <br />

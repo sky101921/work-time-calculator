@@ -1,72 +1,189 @@
-/* 確保 navbar 的樣式 */
-body {
-    font-family: -apple-system, /* Apple 系統字型 */ BlinkMacSystemFont,
-        /* macOS */ 'PingFang TC',
-        /* macOS 和 iOS 中的中文字型 */ 'Microsoft JhengHei',
-        /* 微軟正黑體，Windows */ 'Heiti TC', /* 黑體 */ Arial,
-        /* 英文字型 */ sans-serif; /* 通用字型 */
-    font-size: 16px; /* 預設字型大小 */
-    line-height: 1.6; /* 行距，提升閱讀體驗 */
-    color: #333; /* 文字顏色，深灰色對眼睛更友好 */
-    background-color: #f9f9f9; /* 背景色，淺色為主 */
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Concert+One&display=swap");
+body .tabber {
+  z-index: 999;
+  width: 120px;
+  width: 120px;
+  height: 100%;
+  margin: 0;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Concert One", cursive;
+  font-size: 1.2rem;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
+/* 確保 navbar 的樣式 */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Heiti TC", Arial, sans-serif; /* 通用字型 */
+  font-size: 16px; /* 預設字型大小 */
+  line-height: 1.6; /* 行距，提升閱讀體驗 */
+  color: #333; /* 文字顏色，深灰色對眼睛更友好 */
+  background-color: #f9f9f9; /* 背景色，淺色為主 */
+}
+
+svg {
+  display: none;
+}
+
+.tabber {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+.tabber label {
+  user-select: none;
+  padding: 5px;
+  cursor: pointer;
+  will-change: transform;
+  transform: translateZ(0px);
+  transition: transform 125ms ease-in-out, filter 125ms ease-in-out;
+}
+.tabber label:hover {
+  transform: scale(1.1);
+}
+.tabber input[type=radio] {
+  display: none;
+}
+.tabber input[type=radio]#t1 ~ .blob {
+  transform-origin: right center;
+}
+.tabber input[type=radio]#t2 ~ .blob {
+  transform-origin: left center;
+}
+.tabber input[type=radio]#t1:checked ~ .blob {
+  background: cornflowerblue;
+  animation-name: stretchyRev;
+}
+.tabber input[type=radio]#t2:checked ~ .blob {
+  background-color: skyblue;
+  animation-name: stretchy;
+}
+.tabber .blob {
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  border-radius: 2rem;
+  animation-duration: 0.5s;
+  animation-direction: forwards;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  transition: transform 150ms ease, background 150ms ease;
+  filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" /><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" /><feComposite in="SourceGraphic" in2="goo" operator="atop"/></filter></defs></svg>#goo');
+}
+.tabber .blob:before, .tabber .blob:after {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0;
+  background-color: inherit;
+  height: 100%;
+  width: 50%;
+  border-radius: 100%;
+}
+.tabber .blob:before {
+  left: 0;
+  animation-delay: 0.15s;
+}
+.tabber .blob:after {
+  right: 0;
+}
+
+@keyframes stretchy {
+  0% {
+    transform: translateX(0) scaleX(1);
+  }
+  50% {
+    transform: translateX(0) scaleX(2);
+  }
+  100% {
+    transform: translateX(100%) scaleX(1);
+  }
+}
+@keyframes stretchyRev {
+  0% {
+    transform: translateX(100%) scaleX(1);
+  }
+  50% {
+    transform: translateX(0) scaleX(2);
+  }
+  100% {
+    transform: translateX(0) scaleX(1);
+  }
+}
+@keyframes pulse {
+  0%, 50% {
+    transform: scaleX(1);
+  }
+  25%, 75% {
+    transform: scaleX(1.5);
+  }
+}
 nav {
-    display: flex;
-    justify-content: space-between; /* 左右分布 */
-    align-items: center; /* 垂直置中 */
-    background-color: #333; /* 背景顏色 */
-    padding: 10px 20px; /* 內距 */
-    color: white; /* 字體顏色 */
+  display: flex;
+  justify-content: space-between; /* 左右分布 */
+  align-items: center; /* 垂直置中 */
+  background-color: #333; /* 背景顏色 */
+  padding: 3px 8px; /* 內距 */
+  color: white; /* 字體顏色 */
 }
 
 /* 將網站名稱靠左 */
 nav h1 {
-    margin: 0;
-    font-size: 1.3em;
-    color: white;
+  margin: 0;
+  font-size: 1.3em;
+  color: white;
 }
 
 /* 將 ul 的項目水平排列 */
 nav ul {
-    display: flex; /* 使用 flex 排列 */
-    list-style-type: none; /* 移除項目前的點 */
-    margin: 0;
-    padding: 0;
+  display: flex; /* 使用 flex 排列 */
+  list-style-type: none; /* 移除項目前的點 */
+  margin: 0;
+  padding: 0;
 }
 
 /* 每個 li 項目的樣式 */
 nav ul li {
-    margin-left: 15px; /* 增加間距 */
+  margin-left: 15px; /* 增加間距 */
 }
 
 /* 超連結樣式 */
 nav ul li a {
-    text-decoration: none; /* 移除下劃線 */
-    color: white; /* 字體顏色 */
-    font-size: 1.1em;
+  text-decoration: none; /* 移除下劃線 */
+  color: white; /* 字體顏色 */
+  font-size: 1.1em;
 }
 
 /* 當滑鼠移到連結上時的效果 */
 nav ul li a:hover {
-    text-decoration: underline; /* 滑鼠懸停顯示下劃線 */
+  text-decoration: underline; /* 滑鼠懸停顯示下劃線 */
 }
 
 /* 當選項 active 時變成黃色 */
 nav ul li a.active {
-    color: yellow; /* 字體變成黃色 */
-    font-weight: bold; /* 強調選中的項目 */
+  color: yellow; /* 字體變成黃色 */
+  font-weight: bold; /* 強調選中的項目 */
 }
 
 /* Media Query for mobile devices */
 @media (max-width: 768px) {
-    nav h1 {
-        font-size: 1.3em; /* 縮小標題字體 */
-    }
-    nav ul li a {
-        font-size: 1.1em; /* 縮小選項字體 */
-    }
-    nav ul li {
-        margin-left: 9px; /* 減少間距 */
-    }
+  nav h1 {
+    font-size: 1.3em; /* 縮小標題字體 */
+  }
+  nav ul li a {
+    font-size: 1.1em; /* 縮小選項字體 */
+  }
+  nav ul li {
+    margin-left: 9px; /* 減少間距 */
+  }
 }
+
+/*# sourceMappingURL=main.css.map */

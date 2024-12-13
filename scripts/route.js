@@ -1,8 +1,36 @@
 let map, directionsService, directionsRenderer, trafficLayer;
 
 // GPS 座標
-const home = { lat: 24.879789464860007, lng: 121.2658900463753 };
+let home = { lat: 24.879789464860007, lng: 121.2658900463753 };
+// 定義對應的值
+const locations = {
+    t1: { lat: 24.88019431968695, lng: 121.2649536799218 }, // Jade 的座標
+    t2: { lat: 24.992107820919873, lng: 121.3369626860762 }, // Archie 的座標
+};
+
 const office = { lat: 24.955979616671335, lng: 121.16736966965546 };
+// 取得所有 radio 按鈕
+const inputs = document.querySelectorAll('input[name="food"]');
+
+// 為每個 input 添加 change 事件
+inputs.forEach((input) => {
+    input.addEventListener('change', (event) => {
+        // 更新 home 為選中的座標
+        home = locations[event.target.id];
+        // console.log(`選擇了：${event.target.id}，home 更新為：`, home);
+
+        // 檢查哪個按鈕是 active
+        if (document.getElementById('toCompany').classList.contains('active')) {
+            // console.log('現在是前往公司');
+            calculateRouteAndTime(home, office); // 更新到公司路線
+        } else if (
+            document.getElementById('toHome').classList.contains('active')
+        ) {
+            // console.log('現在是回家');
+            calculateRouteAndTime(office, home); // 更新回家路線
+        }
+    });
+});
 
 // 初始化地圖
 function initMap() {
